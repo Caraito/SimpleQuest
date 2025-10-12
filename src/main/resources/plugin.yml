@@ -1,0 +1,13 @@
+name: SimpleQuest
+version: '1.0'
+main: fr.caraito.simpleQuest.Main
+api-version: '1.20'
+authors: [ Caraito ]
+description: Simple quest plugin
+
+commands:
+  quest:
+    description: Voir les quêtes
+  adminquest:
+    description: Permet de gérer les quêtes
+    permission: simplequest.admin
