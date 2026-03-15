@@ -7,6 +7,7 @@
 - **Commands:**
     - `/quest` — Player quest management (info, progress)
     - `/adminquest` — Admin quest creation and management
+    - `/adminquestconfig` — Opens the language settings GUI (switch between FR/EN)
 - **Permission:** `simplequest.admin`
 
 ---
@@ -45,6 +46,7 @@ Each quest includes:
 - **Commandes :**
     - `/quest` — Gestion des quêtes pour les joueurs (infos, progression)
     - `/adminquest` — Création et gestion des quêtes pour les administrateurs
+    - `/adminquestconfig` — Ouvre le menu de configuration de langue (bascule FR/EN)
 - **Permission :** `simplequest.admin`
 
 ---

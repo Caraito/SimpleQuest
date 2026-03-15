@@ -11,3 +11,6 @@ commands:
   adminquest:
     description: Permet de gérer les quêtes
     permission: simplequest.admin
+  adminquestconfig:
+    description: Ouvre la configuration SimpleQuest
+    permission: simplequest.admin

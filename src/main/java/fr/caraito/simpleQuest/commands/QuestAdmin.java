@@ -10,22 +10,27 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class QuestAdmin implements CommandExecutor {
+    private final Main main;
+
     public QuestAdmin(Main main) {
+        this.main = main;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
-        FileConfiguration config = Main.getInstance().getConfig();
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(main.tr("command.player-only"));
+            return true;
+        }
+        FileConfiguration config = main.getConfig();
 
         if (player.hasPermission("simplequest.admin")) {
             if (args.length == 0) {
 
-                player.sendMessage("[§aSimple §eQuest§r] §7- §eAdmin commands : ");
-                player.sendMessage("[§aSimple §eQuest§r] §7- §a--> §b/quest setup §7<§6kill§7 // §6break§7 // §6deposit§7> <§dmaterial§7> <§damount§7> <§dreward§7> <§damount§7> <§dquest ID§7>");
-                player.sendMessage("[§aSimple §eQuest§r] §7- §a--> §b/quest remove §7<§dquest ID§7>");
+                player.sendMessage(main.tr("admin.help.title"));
+                player.sendMessage(main.tr("admin.help.setup"));
+                player.sendMessage(main.tr("admin.help.remove"));
                 return true;
 
             }
@@ -43,7 +48,7 @@ public class QuestAdmin implements CommandExecutor {
                     quantite = Integer.parseInt(args[3]);
                     quantiteRecompense = Integer.parseInt(args[5]);
                 } catch (NumberFormatException e) {
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §cInvalid amount or reward amount.");
+                    player.sendMessage(main.tr("admin.invalid-number"));
                     return true;
                 }
 
@@ -61,11 +66,11 @@ public class QuestAdmin implements CommandExecutor {
                 }
                 recompenseValide = Material.getMaterial(recompense) != null;
                 if (!materielValide) {
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §cInvalid material or entity for this quest type.");
+                    player.sendMessage(main.tr("admin.invalid-target"));
                     return true;
                 }
                 if (!recompenseValide) {
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §cInvalid reward, it must be a recognized Minecraft item.");
+                    player.sendMessage(main.tr("admin.invalid-reward"));
                     return true;
                 }
 
@@ -81,7 +86,7 @@ public class QuestAdmin implements CommandExecutor {
                         } catch (NumberFormatException ignored) {}
                     }
                     int nextId = maxId + 1;
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §cThe ID §e" + id + " §calready exists. §aNext available ID: §e" + nextId);
+                    player.sendMessage(main.tr("admin.id-exists", id, nextId));
                     return true;
                 }
 
@@ -91,9 +96,9 @@ public class QuestAdmin implements CommandExecutor {
                 config.set(path + ".quantite", quantite);
                 config.set(path + ".recompense", recompense);
                 config.set(path + ".quantiteRecompense", quantiteRecompense);
-                Main.getInstance().saveConfig();
+                main.saveConfig();
 
-                player.sendMessage("[§aSimple §eQuest§r] §7- §aQuest successfully added!");
+                player.sendMessage(main.tr("admin.quest-added"));
                 return true;
             }
 
@@ -114,20 +119,20 @@ public class QuestAdmin implements CommandExecutor {
                             config.set("QueteDone." + playerName + "." + id, null);
                         }
                     }
-                    Main.getInstance().saveConfig();
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §aQuest removed!");
+                    main.saveConfig();
+                    player.sendMessage(main.tr("admin.quest-removed"));
                 } else {
-                    player.sendMessage("[§aSimple §eQuest§r] §7- §cQuest ID not found.");
+                    player.sendMessage(main.tr("admin.id-not-found"));
                 }
                 return true;
             }
 
-            player.sendMessage("[§aSimple §eQuest§r] §7- §cInvalid command usage.");
+            player.sendMessage(main.tr("admin.invalid-usage"));
             return true;
 
         } else {
 
-            player.sendMessage("[§aSimple §eQuest§r] §7- §cYou do not have permission to execute this command.");
+            player.sendMessage(main.tr("admin.no-permission"));
             return true;
 
             }
